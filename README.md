@@ -32,5 +32,8 @@ And add the script to run whenever you like (*eg: every minute*):
 ```
 *      *       *       *       *       root    /bin/sh /<path-to-script>/synctract.sh
 ```
-** Note for Synology users **
-Make sure to restart the cron service with: `/usr/syno/sbin/synoservicectl --restart crond`
+**Note for Synology users**
+Make sure to restart the cron service with:
+```
+/usr/syno/sbin/synoservicectl --restart crond
+```
