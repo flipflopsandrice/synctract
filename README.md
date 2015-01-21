@@ -28,7 +28,7 @@ Use the system's crontab (or if available, edit your user's crontab through *`cr
 ```
 vi /etc/crontab
 ```
-And add the script to run whenever you like (**here it's every minute**):
+And add the script to run whenever you like (*eg: every minute*):
 ```
-*      *       *       *       *       root    /<path-to-script>/synctract.sh
+*      *       *       *       *       root    /bin/sh /<path-to-script>/synctract.sh
 ```
