@@ -3,7 +3,7 @@
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 CONFIGFILE="$SCRIPTPATH/"config.cfg
 
-### Import configuration
+## Import configuration
 if [ ! -f "$CONFIGFILE" ]
 then
     echo No configuration file found, exiting.
@@ -15,6 +15,11 @@ do
     str="$key='$val'"
     echo "$str"
 done)
+
+if [ "$logging_enabled" -eq 1 ]
+then
+    echo Started sequence on: `date`
+fi
 
 IGNORELIST="$local_tmp"/synctract.ignore
 
@@ -28,7 +33,7 @@ touch "$local_tmp"/synctract.lock
 touch "$IGNORELIST"
 
 ### Rsync data
-rsync -rlptgovzEhv -avzq --bwlimit=1536 --specials --ignore-errors --exclude-from "$IGNORELIST" "$remote_user"@"$remote_hostname":"$remote_folder"/ "$local_destination"
+rsync -avzq --bwlimit=1536 --specials --ignore-errors --exclude-from "$IGNORELIST" "$remote_user"@"$remote_hostname":"$remote_folder"/ "$local_destination"
 find "$local_destination" | sed "s#$local_destination/##g" >> "$IGNORELIST"
 
 ### Find available archives
@@ -50,8 +55,19 @@ do
     if [ ! -z "${MISSING}" ]
     then
         unrar x "$local_destination"/"$RAR" `dirname "$local_destination"/"$RAR"` > /dev/null 2>&1
+        
+        if [ "$logging_enabled" -eq 1 ]
+        then
+            echo Extracting '"$RAR"'
+        fi
     fi
 done
 
 ### Release lock
 rm "$local_tmp"/synctract.lock;
+
+if [ "$logging_enabled" -eq 1 ]
+then
+    echo Lock released on: `date`
+fi
+
