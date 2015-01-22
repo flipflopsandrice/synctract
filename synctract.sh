@@ -64,7 +64,7 @@ do
 done
 
 ### Release lock
-rm "$local_tmp"/synctract.lock;
+rm "$local_tmp"/synctract.lock
 
 if [ "$logging_enabled" -eq 1 ]
 then
